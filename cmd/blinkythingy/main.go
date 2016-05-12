@@ -12,10 +12,12 @@ import (
 	"github.com/vikstrous/blinkythingy/display/blinky"
 	combineddisplay "github.com/vikstrous/blinkythingy/display/combined"
 	"github.com/vikstrous/blinkythingy/display/debug"
+	"github.com/vikstrous/blinkythingy/display/http"
 	"github.com/vikstrous/blinkythingy/fetcher"
-	"github.com/vikstrous/blinkythingy/fetcher/blank"
+	"github.com/vikstrous/blinkythingy/fetcher/color"
 	combinedfetcher "github.com/vikstrous/blinkythingy/fetcher/combined"
 	githubfetcher "github.com/vikstrous/blinkythingy/fetcher/github"
+	httpfetcher "github.com/vikstrous/blinkythingy/fetcher/http"
 	"github.com/vikstrous/blinkythingy/fetcher/jenkins"
 	"gopkg.in/yaml.v2"
 )
@@ -56,7 +58,8 @@ func RunFetcher(fetcher fetcher.Fetcher, display display.Display, reloadRate, bl
 func Run(config blinkythingy.Config) error {
 	fetcherFactory := fetcher.NewFactory([]fetcher.NamedCreator{
 		{"github", githubfetcher.New},
-		{"blank", blank.New},
+		{"http", httpfetcher.New},
+		{"color", color.New},
 		{"jenkins", jenkins.New},
 	})
 
@@ -71,6 +74,7 @@ func Run(config blinkythingy.Config) error {
 
 	displayFactory := display.NewFactory([]display.NamedCreator{
 		{"blinky", blinky.New},
+		{"http", http.New},
 		{"debug", debug.New},
 	})
 

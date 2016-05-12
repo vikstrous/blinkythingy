@@ -7,24 +7,53 @@ import (
 	"path"
 	"time"
 
+	"gopkg.in/yaml.v2"
+
+	"github.com/Sirupsen/logrus"
 	"github.com/vikstrous/blinkythingy"
 	"github.com/vikstrous/blinkythingy/display"
 )
+
+type HTTPConfig struct {
+	Addr string
+	Path string
+}
+
+func MapToBlinkyConfig(mapConfig blinkythingy.MapConfig) (HTTPConfig, error) {
+	config := HTTPConfig{}
+	marshalled, err := yaml.Marshal(mapConfig)
+	if err != nil {
+		return config, err
+	}
+	err = yaml.Unmarshal(marshalled, &config)
+	if err != nil {
+		return config, err
+	}
+	return config, nil
+}
 
 type httpDisplay struct {
 	listener *net.TCPListener
 	colors   []blinkythingy.Color
 }
 
-func New(addr, serverPath string) (display.Display, error) {
+func New(mapConfig blinkythingy.MapConfig) (display.Display, error) {
+	config, err := MapToBlinkyConfig(mapConfig)
+	if err != nil {
+		return nil, err
+	}
+
+	addr := config.Addr
+	servePath := config.Path
+
 	if addr == "" {
 		addr = ":1337"
 	}
 	ln, err := net.Listen("tcp", addr)
 	if err != nil {
-		return err
+		return nil, err
 	}
-	listener := tcpKeepAliveListener{ln.(*net.TCPListener)}
+	listener := ln.(*net.TCPListener)
 
 	d := &httpDisplay{
 		listener: listener,
@@ -32,7 +61,7 @@ func New(addr, serverPath string) (display.Display, error) {
 
 	mux := http.NewServeMux()
 	mux.HandleFunc(path.Join("/", servePath), func(w http.ResponseWriter, r *http.Request) {
-		json.Encoder(w).Encode(d.colors)
+		json.NewEncoder(w).Encode(d.colors)
 	})
 	server := &http.Server{
 		Addr:           addr,
@@ -45,12 +74,13 @@ func New(addr, serverPath string) (display.Display, error) {
 	go func() {
 		err := server.Serve(listener)
 		if err != nil {
-			fmt.Warn(err)
+			logrus.Warn(err)
 		}
 	}()
 	return d, nil
 }
 
-func (d *httpDisplay) Flush(colors []caashttp.Color) error {
+func (d *httpDisplay) Flush(colors []blinkythingy.Color) error {
 	d.colors = colors
+	return nil
 }

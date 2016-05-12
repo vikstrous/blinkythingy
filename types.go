@@ -39,3 +39,8 @@ func (fc MapConfig) Type() string {
 	typ, _ := fc["type"].(string)
 	return typ
 }
+
+type HTTPClientConfig struct {
+	InsecureTLS bool `yaml:"insecure-tls"`
+	CA          string
+}

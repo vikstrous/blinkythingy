@@ -5,26 +5,58 @@ import (
 	"fmt"
 	"net/http"
 
+	"gopkg.in/yaml.v2"
+
 	"github.com/vikstrous/blinkythingy"
 	"github.com/vikstrous/blinkythingy/fetcher"
+	"github.com/vikstrous/blinkythingy/util"
 )
 
-type serverFetcher struct {
+type HTTPConfig struct {
+	blinkythingy.HTTPClientConfig
+	URL string
+}
+
+func MapToHTTPConfig(mapConfig blinkythingy.MapConfig) (HTTPConfig, error) {
+	config := HTTPConfig{}
+	marshalled, err := yaml.Marshal(mapConfig)
+	if err != nil {
+		return config, err
+	}
+	err = yaml.Unmarshal(marshalled, &config)
+	if err != nil {
+		return config, err
+	}
+	return config, nil
+}
+
+type httpFetcher struct {
 	url    string
 	colors []blinkythingy.Color
 	client *http.Client
 }
 
-func New(url string, httpClient *http.Client) fetcher.Fetcher {
-	return &serverFetcher{
-		url:    url,
-		client: httpClient,
+func New(mapConfig blinkythingy.MapConfig) (fetcher.Fetcher, error) {
+	config, err := MapToHTTPConfig(mapConfig)
+	if err != nil {
+		return nil, err
 	}
+	httpClient, err := util.HTTPClient(config.InsecureTLS, config.CA)
+	if err != nil {
+		return nil, err
+	}
+	return &httpFetcher{
+		url:    config.URL,
+		client: httpClient,
+	}, nil
 }
 
-func (f *serverFetcher) FetchStatuses() error {
-	req := http.NewRequest("GET", url, nil)
-	res, err := c.client.Do(req)
+func (f *httpFetcher) FetchStatuses() error {
+	req, err := http.NewRequest("GET", f.url, nil)
+	if err != nil {
+		return err
+	}
+	res, err := f.client.Do(req)
 	if err != nil {
 		return err
 	}
@@ -32,9 +64,9 @@ func (f *serverFetcher) FetchStatuses() error {
 	if res.StatusCode != 200 {
 		return fmt.Errorf("Bad status: %s")
 	}
-	return json.Decoder(res).Decode(d.colors)
+	return json.NewDecoder(res.Body).Decode(&f.colors)
 }
 
-func (f *serverFetcher) ListStatuses() []blinkythingy.Color {
-	return d.colors
+func (f *httpFetcher) ListStatuses() []blinkythingy.Color {
+	return f.colors
 }

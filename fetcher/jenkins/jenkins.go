@@ -13,13 +13,12 @@ import (
 )
 
 type JenkinsConfig struct {
-	Host        string
-	InsecureTLS bool `yaml:"insecure-tls"`
-	CA          string
-	Username    string
-	Password    string
-	Job         string
-	Matrix      bool
+	blinkythingy.HTTPClientConfig
+	Host     string
+	Username string
+	Password string
+	Job      string
+	Matrix   bool
 }
 
 func MapToJenkinsConfig(mapConfig blinkythingy.MapConfig) (JenkinsConfig, error) {
