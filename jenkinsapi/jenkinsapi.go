@@ -35,7 +35,7 @@ func (c *client) JobDataWithFilter(job, filter string) (interface{}, error) {
 	}
 	defer res.Body.Close()
 	if res.StatusCode != 200 {
-		return nil, fmt.Errorf("Non-200 status code: %s", res.StatusCode)
+		return nil, fmt.Errorf("Non-200 status code: %d", res.StatusCode)
 	}
 	parsed := map[string]interface{}{}
 	err = json.NewDecoder(res.Body).Decode(&parsed)

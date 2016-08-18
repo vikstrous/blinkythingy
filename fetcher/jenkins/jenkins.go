@@ -103,6 +103,8 @@ func (jf *jenkinsFetcher) ListStatuses() []blinkythingy.Color {
 var green = colorutil.MustParseColorString("green")
 var red = colorutil.MustParseColorString("red")
 var orange = colorutil.MustParseColorString("orange")
+var yellow = colorutil.MustParseColorString("yellow")
+var aborted = colorutil.MustParseColorString("blue")
 var black = colorutil.MustParseColorString("black")
 
 func JenkinsColorToColor(jc string) blinkythingy.Color {
@@ -115,6 +117,12 @@ func JenkinsColorToColor(jc string) blinkythingy.Color {
 	orangeAnime := orange
 	orangeAnime.BlinkPeriod = 10
 	orangeAnime.BlinkOn = 9
+	yellowAnime := yellow
+	yellowAnime.BlinkPeriod = 10
+	yellowAnime.BlinkOn = 9
+	abortedAnime := aborted
+	abortedAnime.BlinkPeriod = 10
+	abortedAnime.BlinkOn = 9
 	switch jc {
 	case "blue":
 		return green
@@ -128,6 +136,14 @@ func JenkinsColorToColor(jc string) blinkythingy.Color {
 		return orange
 	case "orange_anime":
 		return orangeAnime
+	case "yellow":
+		return yellow
+	case "yellow_anime":
+		return yellowAnime
+	case "aborted":
+		return aborted
+	case "aborted_anime":
+		return abortedAnime
 	case "notbuilt_anime":
 		return orangeAnime
 	}
