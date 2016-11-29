@@ -5,6 +5,7 @@ import (
 	"net"
 	"net/http"
 	"path"
+	"sync"
 	"time"
 
 	"gopkg.in/yaml.v2"
@@ -33,8 +34,9 @@ func MapToBlinkyConfig(mapConfig blinkythingy.MapConfig) (HTTPConfig, error) {
 }
 
 type httpDisplay struct {
-	listener *net.TCPListener
-	colors   []blinkythingy.Color
+	listener   *net.TCPListener
+	colorsLock sync.Mutex
+	colors     []blinkythingy.Color
 }
 
 func New(mapConfig blinkythingy.MapConfig) (display.Display, error) {
@@ -61,6 +63,8 @@ func New(mapConfig blinkythingy.MapConfig) (display.Display, error) {
 
 	mux := http.NewServeMux()
 	mux.HandleFunc(path.Join("/", servePath), func(w http.ResponseWriter, r *http.Request) {
+		d.colorsLock.Lock()
+		defer d.colorsLock.Unlock()
 		json.NewEncoder(w).Encode(d.colors)
 	})
 	server := &http.Server{
@@ -81,6 +85,8 @@ func New(mapConfig blinkythingy.MapConfig) (display.Display, error) {
 }
 
 func (d *httpDisplay) Flush(colors []blinkythingy.Color) error {
+	d.colorsLock.Lock()
+	defer d.colorsLock.Unlock()
 	d.colors = colors
 	return nil
 }

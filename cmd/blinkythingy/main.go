@@ -57,10 +57,10 @@ func RunFetcher(fetcher fetcher.Fetcher, display display.Display, reloadRate, bl
 
 func Run(config blinkythingy.Config) error {
 	fetcherFactory := fetcher.NewFactory([]fetcher.NamedCreator{
-		{"github", githubfetcher.New},
-		{"http", httpfetcher.New},
-		{"color", color.New},
-		{"jenkins", jenkins.New},
+		{Name: "github", Creator: githubfetcher.New},
+		{Name: "http", Creator: httpfetcher.New},
+		{Name: "color", Creator: color.New},
+		{Name: "jenkins", Creator: jenkins.New},
 	})
 
 	fetchers := []fetcher.Fetcher{}
@@ -73,9 +73,9 @@ func Run(config blinkythingy.Config) error {
 	}
 
 	displayFactory := display.NewFactory([]display.NamedCreator{
-		{"blinky", blinky.New},
-		{"http", http.New},
-		{"debug", debug.New},
+		{Name: "blinky", Creator: blinky.New},
+		{Name: "http", Creator: http.New},
+		{Name: "debug", Creator: debug.New},
 	})
 
 	displays := []display.Display{}

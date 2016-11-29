@@ -2,6 +2,7 @@ package util
 
 import (
 	"crypto/tls"
+	"crypto/x509"
 	"fmt"
 	"net"
 	"net/http"
@@ -32,7 +33,10 @@ func httpTransport(insecure bool, cas ...string) (*http.Transport, error) {
 		},
 	}
 	if !insecure {
-		caPool := systemRootsPool()
+		caPool, err := x509.SystemCertPool()
+		if err != nil {
+			return nil, err
+		}
 		for _, ca := range cas {
 			if ca == "" {
 				continue

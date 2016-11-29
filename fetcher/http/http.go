@@ -62,7 +62,7 @@ func (f *httpFetcher) FetchStatuses() error {
 	}
 	defer res.Body.Close()
 	if res.StatusCode != 200 {
-		return fmt.Errorf("Bad status: %s")
+		return fmt.Errorf("Bad status: %d", res.StatusCode)
 	}
 	return json.NewDecoder(res.Body).Decode(&f.colors)
 }
