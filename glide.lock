@@ -1,0 +1,28 @@
+hash: 6e21d98478806480a8ee221b97fecee1c6e9a90f6d9573d4445fa180b7f5908e
+updated: 2016-11-29T00:09:48.145387018Z
+imports:
+- name: github.com/aybabtme/rgbterm
+  version: c9a1bdb3761d262af7109d6463977046dafde36e
+- name: github.com/buildkite/go-buildkite
+  version: bc045ffb2fdeef1f3c253d2843985fed2fa19dad
+  subpackages:
+  - buildkite
+- name: github.com/codegangsta/cli
+  version: 7f0ca9a34958d6702ac8f38530d19001fa5b1560
+- name: github.com/google/go-github
+  version: a68a8707f3c18a3a47bb0975ca29a9239792dc01
+  subpackages:
+  - github
+- name: github.com/google/go-querystring
+  version: 9235644dd9e52eeae6fa48efd539fdc351a0af53
+  subpackages:
+  - query
+- name: github.com/Sirupsen/logrus
+  version: 4643a7efec9b8fd7548882e7b30095711343100f
+- name: github.com/tarm/serial
+  version: a53c419ae7ba5705d100024728f5254b81dd73e9
+- name: github.com/vikstrous/go-blinkytape
+  version: af221463c0b1b25c22e84fbe5ff6f1d4d414ff33
+- name: gopkg.in/yaml.v2
+  version: 7ad95dd0798a40da1ccdff6dff35fd177b5edf40
+testImports: []
