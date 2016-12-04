@@ -24,3 +24,5 @@ import:
   version: af221463c0b1b25c22e84fbe5ff6f1d4d414ff33
 - package: gopkg.in/yaml.v2
   version: 7ad95dd0798a40da1ccdff6dff35fd177b5edf40
+- package: gopkg.in/buildkite/go-buildkite.v2
+  version: 2a542e6524708fe428e62b65a0a5fc969a82b2e0

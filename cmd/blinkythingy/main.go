@@ -14,6 +14,7 @@ import (
 	"github.com/vikstrous/blinkythingy/display/debug"
 	"github.com/vikstrous/blinkythingy/display/http"
 	"github.com/vikstrous/blinkythingy/fetcher"
+	"github.com/vikstrous/blinkythingy/fetcher/buildkite"
 	"github.com/vikstrous/blinkythingy/fetcher/color"
 	combinedfetcher "github.com/vikstrous/blinkythingy/fetcher/combined"
 	githubfetcher "github.com/vikstrous/blinkythingy/fetcher/github"
@@ -61,6 +62,7 @@ func Run(config blinkythingy.Config) error {
 		{Name: "http", Creator: httpfetcher.New},
 		{Name: "color", Creator: color.New},
 		{Name: "jenkins", Creator: jenkins.New},
+		{Name: "buildkite", Creator: buildkite.New},
 	})
 
 	fetchers := []fetcher.Fetcher{}

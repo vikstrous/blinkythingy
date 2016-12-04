@@ -1,5 +1,5 @@
-hash: 6e21d98478806480a8ee221b97fecee1c6e9a90f6d9573d4445fa180b7f5908e
-updated: 2016-11-29T00:09:48.145387018Z
+hash: 8fbf0bae40b5962feb3bb8bb00379f85f149413b262c2de062f41db2bb965719
+updated: 2016-12-04T19:47:51.154082001Z
 imports:
 - name: github.com/aybabtme/rgbterm
   version: c9a1bdb3761d262af7109d6463977046dafde36e
@@ -23,6 +23,10 @@ imports:
   version: a53c419ae7ba5705d100024728f5254b81dd73e9
 - name: github.com/vikstrous/go-blinkytape
   version: af221463c0b1b25c22e84fbe5ff6f1d4d414ff33
+- name: gopkg.in/buildkite/go-buildkite.v2
+  version: 2a542e6524708fe428e62b65a0a5fc969a82b2e0
+  subpackages:
+  - buildkite
 - name: gopkg.in/yaml.v2
   version: 7ad95dd0798a40da1ccdff6dff35fd177b5edf40
 testImports: []
