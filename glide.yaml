@@ -1,28 +1,16 @@
 package: github.com/vikstrous/blinkythingy
 import:
 - package: github.com/Sirupsen/logrus
-  version: 4643a7efec9b8fd7548882e7b30095711343100f
+  version: ^0.11.0
 - package: github.com/aybabtme/rgbterm
-  version: c9a1bdb3761d262af7109d6463977046dafde36e
 - package: github.com/codegangsta/cli
-  version: 7f0ca9a34958d6702ac8f38530d19001fa5b1560
-- package: github.com/buildkite/go-buildkite
-  version: bc045ffb2fdeef1f3c253d2843985fed2fa19dad
-  subpackages:
-  - buildkite
+  version: ^1.19.1
 - package: github.com/google/go-github
-  version: a68a8707f3c18a3a47bb0975ca29a9239792dc01
   subpackages:
   - github
-- package: github.com/google/go-querystring
-  version: 9235644dd9e52eeae6fa48efd539fdc351a0af53
-  subpackages:
-  - query
-- package: github.com/tarm/serial
-  version: a53c419ae7ba5705d100024728f5254b81dd73e9
 - package: github.com/vikstrous/go-blinkytape
-  version: af221463c0b1b25c22e84fbe5ff6f1d4d414ff33
-- package: gopkg.in/yaml.v2
-  version: 7ad95dd0798a40da1ccdff6dff35fd177b5edf40
 - package: gopkg.in/buildkite/go-buildkite.v2
-  version: 2a542e6524708fe428e62b65a0a5fc969a82b2e0
+  version: ^2.0.0
+  subpackages:
+  - buildkite
+- package: gopkg.in/yaml.v2
